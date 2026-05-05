@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PROPIX — Inmobiliaria & Diseño de Interiores</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --charcoal: #1a1a1a;
+    --dark-gray: #2d2d2d;
+    --mid-gray: #5a5a5a;
+    --light-gray: #9a9a9a;
+    --silver: #c8c8c8;
+    --off-white: #f0efed;
+    --white: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Raleway', sans-serif;
+    background: var(--off-white);
+    color: var(--charcoal);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  .cursor {
+    width: 8px; height: 8px;
+    background: var(--black);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%,-50%);
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--charcoal);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%,-50%);
+    transition: width 0.3s, height 0.3s, border-color 0.3s;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 28px 60px;
+    background: rgba(240,239,237,0.93);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    transition: box-shadow 0.3s;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 14px; }
+  .nav-logo svg { width: 38px; height: 38px; }
+  .logo-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 600;
+    letter-spacing: 0.25em; color: var(--black);
+  }
+  .logo-img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+  .logo-text span { color: var(--light-gray); font-weight: 300; }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a {
+    text-decoration: none; color: var(--mid-gray);
+    font-size: 11px; font-weight: 400;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    transition: color 0.3s; position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 1px; background: var(--black); transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--black); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-cta {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 12px 28px; border: 1px solid var(--charcoal);
+    color: var(--charcoal); text-decoration: none;
+    transition: all 0.3s; font-family: 'Raleway', sans-serif;
+  }
+  .nav-cta:hover { background: var(--charcoal); color: var(--white); }
+
+  /* HERO */
+  .hero {
+    height: 100vh; display: grid; grid-template-columns: 1fr 1fr;
+    position: relative; overflow: hidden;
+  }
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 60px 80px 60px;
+    background: var(--black); position: relative; overflow: hidden;
+  }
+  .hero-left::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('Imagenes/Propixlogo.png') center/40% no-repeat;
+  opacity: 0.2;
+  pointer-events: none;
+}
+  .hero-left::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 30%, rgba(80,80,80,0.12) 0%, transparent 60%);
+  }
+  .hero-tag {
+    font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--silver); margin-bottom: 24px; position: relative;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .hero-tag::before { content: ''; width: 40px; height: 1px; background: var(--silver); }
+  .hero-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 5.5vw, 82px);
+    font-weight: 300; line-height: 1.05;
+    color: var(--white); margin-bottom: 36px; position: relative;
+  }
+  .hero-headline em { font-style: italic; color: var(--silver); }
+  .hero-sub {
+    font-size: 12px; letter-spacing: 0.06em; color: var(--light-gray);
+    line-height: 1.9; max-width: 340px; margin-bottom: 48px; position: relative;
+  }
+  .hero-actions { display: flex; gap: 20px; align-items: center; position: relative; }
+  .btn-primary {
+    padding: 16px 36px; background: var(--white); color: var(--black);
+    font-family: 'Raleway', sans-serif; font-size: 10px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    text-decoration: none; font-weight: 500; transition: background 0.3s;
+  }
+  .btn-primary:hover { background: var(--silver); }
+  .btn-ghost {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--silver); text-decoration: none;
+    display: flex; align-items: center; gap: 12px; transition: color 0.3s;
+  }
+  .btn-ghost span { transition: transform 0.3s; }
+  .btn-ghost:hover { color: var(--white); }
+  .btn-ghost:hover span { transform: translateX(6px); }
+
+  .hero-right {
+    position: relative; overflow: hidden;
+    background: linear-gradient(145deg, #1f1f1f 0%, #111 50%, #1a1a1a 100%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero-right-art {
+    position: relative; z-index: 1; opacity: 0.12;
+  }
+  .hero-right::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to right, var(--black) 0%, transparent 30%);
+    z-index: 2;
+  }
+
+  .hero-scroll {
+    position: absolute; bottom: 60px; right: 50px;
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
+    z-index: 10;
+  }
+  .hero-scroll span {
+    writing-mode: vertical-lr; font-size: 9px; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--mid-gray);
+  }
+  .scroll-line {
+    width: 1px; height: 60px; background: var(--dark-gray);
+    position: relative; overflow: hidden;
+  }
+  .scroll-line::after {
+    content: ''; position: absolute; top: -100%; left: 0;
+    width: 100%; height: 100%; background: var(--silver);
+    animation: scrollLine 2s ease-in-out infinite;
+  }
+  @keyframes scrollLine { 0%{top:-100%} 100%{top:100%} }
+
+  /* MARQUEE */
+  .marquee-strip {
+    background: var(--charcoal); padding: 18px 0;
+    overflow: hidden; white-space: nowrap;
+  }
+  .marquee-track { display: inline-flex; animation: marquee 30s linear infinite; }
+  .marquee-item {
+    display: inline-flex; align-items: center; gap: 32px; padding-right: 32px;
+    font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--silver); font-weight: 300;
+  }
+  .marquee-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--mid-gray); }
+  @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* STATS */
+  .stats-section {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1px; background: var(--silver);
+  }
+  .stat-item { background: var(--off-white); padding: 70px 50px; }
+  .stat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 68px; font-weight: 300; color: var(--black);
+    line-height: 1; margin-bottom: 6px;
+  }
+  .stat-suffix { font-size: 26px; color: var(--light-gray); }
+  .stat-label {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--mid-gray); margin-top: 10px;
+  }
+
+  /* SECTIONS SHARED */
+  .section-tag {
+    font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--light-gray); margin-bottom: 20px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .section-tag::before { content: ''; width: 28px; height: 1px; background: currentColor; }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 4vw, 56px); font-weight: 300;
+    line-height: 1.1; color: var(--black);
+  }
+  .section-title em { font-style: italic; color: var(--mid-gray); }
+  .section-desc {
+    font-size: 13px; color: var(--mid-gray);
+    line-height: 2; max-width: 380px;
+  }
+  .section-header {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 60px; margin-bottom: 80px; align-items: end;
+  }
+
+  /* SERVICES */
+  .services-section { padding: 120px 60px; background: var(--white); }
+  .services-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px; background: var(--silver);
+  }
+  .service-card {
+    background: var(--off-white); padding: 56px 44px;
+    transition: background 0.4s;
+  }
+  .service-card:hover { background: var(--black); }
+  .service-card:hover .service-num,
+  .service-card:hover .service-name,
+  .service-card:hover .service-text { color: var(--white); }
+  .service-card:hover .svc-line { background: var(--silver); }
+  .service-num {
+    font-family: 'Cormorant Garamond', serif; font-size: 13px;
+    color: var(--light-gray); letter-spacing: 0.15em; margin-bottom: 36px;
+    transition: color 0.4s;
+  }
+  .svc-lines { margin-bottom: 28px; }
+  .svc-line {
+    height: 1px; background: var(--charcoal); margin-bottom: 7px;
+    transition: background 0.4s;
+  }
+  .svc-line:first-child { width: 44px; }
+  .svc-line:last-child { width: 26px; }
+  .service-name {
+    font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 400;
+    color: var(--black); margin-bottom: 18px; line-height: 1.2;
+    transition: color 0.4s;
+  }
+  .service-text {
+    font-size: 12px; color: var(--mid-gray); line-height: 1.9; transition: color 0.4s;
+  }
+
+  /* PROPERTIES */
+  .properties-section { padding: 120px 60px; background: var(--off-white); }
+  .properties-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 360px 280px;
+    gap: 4px; margin-top: 70px;
+  }
+  .prop-card {
+    position: relative; overflow: hidden;
+    background: var(--charcoal);
+  }
+  .prop-card.featured { grid-row: 1 / 3; }
+  .prop-bg-fill {
+    position: absolute; inset: 0;
+    transition: transform 0.6s ease;
+  }
+  .prop-card:hover .prop-bg-fill { transform: scale(1.04); }
+  .p1 {
+  background-image: url("Imagenes/Casahouse.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.p2 {
+  background-image: url("Imagenes/Ofice.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.p3 {
+  background-image: url("Imagenes/Loft.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.p4 {
+  background-image: url("Imagenes/golfo.jpg");
+  background-size: cover;
+  background-position: center;
+}
+  .prop-art {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%); opacity: 0.07;
+    pointer-events: none;
+  }
+  .prop-inner {
+    position: absolute; inset: 0; display: flex;
+    flex-direction: column; justify-content: flex-end; padding: 36px;
+    background: linear-gradient(to top, rgba(0,0,0,0.86) 0%, rgba(0,0,0,0.08) 60%, transparent 100%);
+    z-index: 1;
+  }
+  .prop-type {
+    font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--silver); margin-bottom: 10px;
+  }
+  .prop-name {
+    font-family: 'Cormorant Garamond', serif; font-size: 24px;
+    font-weight: 300; color: var(--white); margin-bottom: 8px;
+  }
+  .prop-card.featured .prop-name { font-size: 36px; }
+  .prop-price { font-size: 13px; color: var(--silver); }
+  .prop-details {
+    display: flex; gap: 18px; margin-top: 14px; padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+  }
+  .prop-detail {
+    font-size: 10px; letter-spacing: 0.08em;
+    color: var(--light-gray); text-transform: uppercase;
+  }
+
+  /* FURNITURE */
+  .furniture-section { padding: 120px 60px; background: var(--black); color: var(--white); }
+  .furniture-section .section-tag { color: var(--mid-gray); }
+  .furniture-section .section-title { color: var(--white); }
+  .furniture-section .section-title em { color: var(--mid-gray); }
+  .furniture-section .section-desc { color: var(--light-gray); }
+  .furniture-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 2px; background: var(--dark-gray); margin-top: 70px;
+  }
+  .furn-card {
+    background: var(--charcoal); position: relative;
+    overflow: hidden; aspect-ratio: 3/4;
+  }
+  .furn-visual {
+    width: 100%; height: 62%; display: flex;
+    align-items: center; justify-content: center;
+    background: linear-gradient(145deg, #222, #1a1a1a);
+    overflow: hidden;
+  }
+ .img1 {
+  background: url('Imagenes/sofa.jpg') center/cover no-repeat;
+}
+
+.img2 {
+  background: url('Imagenes/cama.jpg') center/cover no-repeat;
+}
+
+.img3 {
+  background: url('Imagenes/librero.jpg') center/cover no-repeat;
+}
+
+.img4 {
+  background: url('Imagenes/mesita.jpg') center/cover no-repeat;
+}
+  .furn-card:nth-child(2) .furn-visual { background: linear-gradient(145deg,#1c1c1c,#111); }
+  .furn-card:nth-child(3) .furn-visual { background: linear-gradient(145deg,#202020,#161616); }
+  .furn-card:nth-child(4) .furn-visual { background: linear-gradient(145deg,#1a1a1a,#0f0f0f); }
+  .furn-svg { opacity: 0.18; transition: opacity 0.4s, transform 0.4s; }
+  .furn-card:hover .furn-svg { opacity: 0.32; transform: scale(1.06); }
+  .furn-add {
+    position: absolute; top: 18px; right: 18px; width: 36px; height: 36px;
+    border: 1px solid rgba(255,255,255,0.12); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--silver); font-size: 20px;
+    background: rgba(0,0,0,0.25); transition: all 0.3s;
+  }
+  .furn-card:hover .furn-add { background: var(--white); color: var(--black); border-color: var(--white); }
+  .furn-info {
+    padding: 24px 26px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .furn-cat {
+    font-size: 9px; letter-spacing: 0.2em; color: var(--mid-gray);
+    text-transform: uppercase; margin-bottom: 6px;
+  }
+  .furn-name {
+    font-family: 'Cormorant Garamond', serif; font-size: 21px;
+    font-weight: 300; color: var(--white); margin-bottom: 8px;
+  }
+  .furn-price { font-size: 13px; color: var(--silver); }
+
+  /* PROCESS */
+  .process-section { padding: 120px 60px; background: var(--white); }
+  .process-steps {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 0; margin-top: 80px; position: relative;
+  }
+  .process-steps::before {
+    content: ''; position: absolute; top: 27px;
+    left: 12.5%; right: 12.5%; height: 1px; background: var(--silver);
+  }
+  .process-step { padding: 0 28px; text-align: center; }
+  .step-dot {
+    width: 54px; height: 54px; border: 1px solid var(--charcoal);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 30px; font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; color: var(--black);
+    background: var(--white); position: relative; z-index: 1;
+    transition: all 0.3s;
+  }
+  .process-step:hover .step-dot { background: var(--black); color: var(--white); }
+  .step-title {
+    font-family: 'Cormorant Garamond', serif; font-size: 22px;
+    font-weight: 400; color: var(--black); margin-bottom: 14px;
+  }
+  .step-text { font-size: 12px; color: var(--mid-gray); line-height: 1.9; }
+
+  /* TESTIMONIALS */
+  .testimonials-section { padding: 120px 60px; background: var(--charcoal); color: var(--white); }
+  .testimonials-section .section-tag { color: var(--mid-gray); }
+  .testimonials-section .section-title { color: var(--white); }
+  .testimonials-section .section-title em { color: var(--light-gray); }
+  .testimonials-section .section-desc { color: var(--light-gray); }
+  .testimonials-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px; background: var(--dark-gray); margin-top: 70px;
+  }
+  .t-card { background: var(--charcoal); padding: 52px 44px; position: relative; }
+  .t-quote {
+    font-family: 'Cormorant Garamond', serif; font-size: 80px;
+    color: rgba(255,255,255,0.04); line-height: 1; font-style: italic;
+    position: absolute; top: 28px; left: 36px;
+  }
+  .t-text {
+    font-family: 'Cormorant Garamond', serif; font-size: 19px;
+    font-weight: 300; font-style: italic; line-height: 1.75;
+    color: var(--silver); margin-bottom: 36px; position: relative;
+  }
+  .t-author { display: flex; align-items: center; gap: 14px; }
+  .t-avatar {
+    width: 42px; height: 42px; background: var(--dark-gray);
+    border-radius: 50%; border: 1px solid rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif; font-size: 15px; color: var(--silver);
+  }
+  .t-name { font-size: 12px; letter-spacing: 0.1em; color: var(--white); margin-bottom: 3px; }
+  .t-role { font-size: 10px; letter-spacing: 0.15em; color: var(--mid-gray); text-transform: uppercase; }
+
+  /* CTA */
+  .cta-section {
+    padding: 160px 60px; background: var(--off-white);
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .cta-bg-text {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    font-family: 'Cormorant Garamond', serif; font-size: clamp(90px,14vw,190px);
+    font-weight: 300; color: rgba(0,0,0,0.035); white-space: nowrap;
+    pointer-events: none; user-select: none; letter-spacing: 0.15em;
+  }
+  .cta-tag {
+    font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--light-gray); margin-bottom: 24px;
+    display: inline-flex; align-items: center; gap: 16px; position: relative;
+  }
+  .cta-tag::before,.cta-tag::after { content:''; width:28px; height:1px; background:var(--light-gray); }
+  .cta-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(40px,5vw,68px); font-weight: 300;
+    color: var(--black); line-height: 1.1; margin-bottom: 24px; position: relative;
+  }
+  .cta-title em { font-style: italic; color: var(--mid-gray); }
+  .cta-text {
+    font-size: 13px; color: var(--mid-gray); line-height: 2;
+    max-width: 480px; margin: 0 auto 48px; position: relative;
+  }
+  .cta-actions { display: flex; gap: 18px; justify-content: center; position: relative; }
+  .btn-dark {
+    padding: 18px 48px; background: var(--black); color: var(--white);
+    font-family: 'Raleway', sans-serif; font-size: 10px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    text-decoration: none; transition: background 0.3s;
+  }
+  .btn-dark:hover { background: var(--dark-gray); }
+  .btn-outline-dark {
+    padding: 18px 48px; border: 1px solid var(--charcoal);
+    color: var(--charcoal); font-family: 'Raleway', sans-serif;
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    text-decoration: none; transition: all 0.3s;
+  }
+  .btn-outline-dark:hover { background: var(--charcoal); color: var(--white); }
+
+  /* FOOTER */
+  footer { background: var(--black); color: var(--white); padding: 80px 60px 40px; }
+  .footer-top {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px;
+    margin-bottom: 60px; padding-bottom: 60px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif; font-size: 20px;
+    font-weight: 600; letter-spacing: 0.25em; color: var(--white);
+    margin-bottom: 18px; display: block;
+  }
+  .footer-logo span { color: var(--mid-gray); font-weight: 300; }
+  .footer-desc { font-size: 12px; color: var(--mid-gray); line-height: 2; margin-bottom: 28px; max-width: 280px; }
+  .footer-social { display: flex; gap: 12px; }
+  .social-link {
+    width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--mid-gray); text-decoration: none; font-size: 10px;
+    letter-spacing: 0; transition: all 0.3s;
+  }
+  .social-link:hover { border-color: var(--white); color: var(--white); }
+  .footer-col h4 {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--silver); margin-bottom: 26px; font-weight: 400;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 12px; }
+  .footer-col a { text-decoration: none; font-size: 12px; color: var(--mid-gray); transition: color 0.3s; }
+  .footer-col a:hover { color: var(--white); }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; }
+  .footer-copy { font-size: 11px; color: var(--dark-gray); }
+  .footer-legal { display: flex; gap: 28px; }
+  .footer-legal a {
+    font-size: 10px; letter-spacing: 0.1em; color: var(--dark-gray);
+    text-decoration: none; text-transform: uppercase; transition: color 0.3s;
+  }
+  .footer-legal a:hover { color: var(--mid-gray); }
+
+  /* Reveal animation */
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.75s ease, transform 0.75s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* Stagger children */
+  .stagger > *:nth-child(1) { transition-delay: 0s; }
+  .stagger > *:nth-child(2) { transition-delay: 0.1s; }
+  .stagger > *:nth-child(3) { transition-delay: 0.2s; }
+  .stagger > *:nth-child(4) { transition-delay: 0.3s; }
+
+  /* Hero initial animations */
+  .hero-left > * { opacity: 0; transform: translateY(20px); animation: fadeUp 0.8s ease forwards; }
+  .hero-left > *:nth-child(1) { animation-delay: 0.2s; }
+  .hero-left > *:nth-child(2) { animation-delay: 0.4s; }
+  .hero-left > *:nth-child(3) { animation-delay: 0.6s; }
+  .hero-left > *:nth-child(4) { animation-delay: 0.8s; }
+  .hero-left > *:nth-child(5) { animation-delay: 0.4s; opacity:1; transform:none; }
+  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .hero-left { padding: 100px 24px 60px; }
+    .stats-section { grid-template-columns: 1fr 1fr; }
+    .stat-item { padding: 50px 30px; }
+    .services-section, .properties-section, .furniture-section,
+    .process-section, .testimonials-section, .cta-section { padding: 80px 24px; }
+    .section-header { grid-template-columns: 1fr; gap: 20px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .properties-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+    .prop-card.featured { grid-row: auto; height: 420px; }
+    .prop-card { height: 280px; }
+    .furniture-grid { grid-template-columns: 1fr 1fr; }
+    .process-steps { grid-template-columns: 1fr 1fr; gap: 40px; }
+    .process-steps::before { display: none; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 36px; }
+    .footer-bottom { flex-direction: column; gap: 14px; text-align: center; }
+    body { cursor: auto; }
+    .cursor, .cursor-ring { display: none; }
+    .cta-actions { flex-direction: column; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="mainNav">
+<div class="nav-logo">
+  <img src="Imagenes/propixlogo.png" class="logo-img">
+  <span class="logo-text">PRO<span>PIX</span></span>
+</div>
+  <ul class="nav-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#propiedades">Propiedades</a></li>
+    <li><a href="#muebles">Muebles</a></li>
+    <li><a href="#proceso">Proceso</a></li>
+    <li><a href="#nosotros">Nosotros</a></li>
+  </ul>
+  <a href="#contacto" class="nav-cta">Consultar</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-tag">Inmobiliaria &amp; Diseño de Interiores</p>
+    <img src="Imagenes/Propixlogo.png" class="hero-logo">
+    <h1 class="hero-headline">
+      Espacios<br>que<br><em>inspiran</em><br>vivir.
+    </h1>
+    <p class="hero-sub">
+      Desde la propiedad perfecta hasta el mueble que la completa. PROPIX crea entornos donde el lujo y la funcionalidad convergen.
+    </p>
+    <div class="hero-actions">
+      <a href="#propiedades" class="btn-primary">Ver Propiedades</a>
+      <a href="#muebles" class="btn-ghost">Explorar Muebles <span>→</span></a>
+    </div>
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-right-art">
+      <svg viewBox="0 0 400 500" width="380" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M40 280L200 80L360 280" stroke="white" stroke-width="3"/>
+        <rect x="130" y="280" width="140" height="180" stroke="white" stroke-width="2.5" fill="none"/>
+        <rect x="160" y="320" width="80" height="140" fill="white" opacity="0.25"/>
+        <rect x="142" y="295" width="40" height="38" stroke="white" stroke-width="2" fill="none"/>
+        <line x1="0" y1="460" x2="400" y2="460" stroke="white" stroke-width="1.5" opacity="0.3"/>
+        <circle cx="80" cy="445" r="10" stroke="white" stroke-width="1" fill="none" opacity="0.4"/>
+        <circle cx="320" cy="445" r="10" stroke="white" stroke-width="1" fill="none" opacity="0.4"/>
+        <rect x="60" y="130" width="30" height="30" stroke="white" stroke-width="1" fill="none" opacity="0.2"/>
+        <rect x="310" y="160" width="24" height="24" stroke="white" stroke-width="1" fill="none" opacity="0.2"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <div class="marquee-item">Inmuebles Residenciales <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Diseño de Interiores <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Muebles Premium <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Asesoría Inmobiliaria <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Propiedades Comerciales <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Remodelaciones <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Inversión Inteligente <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Inmuebles Residenciales <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Diseño de Interiores <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Muebles Premium <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Asesoría Inmobiliaria <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Propiedades Comerciales <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Remodelaciones <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Inversión Inteligente <span class="marquee-dot"></span></div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-section stagger">
+  <div class="stat-item reveal"><div class="stat-number">12<span class="stat-suffix">+</span></div><div class="stat-label">Años de Experiencia</div></div>
+  <div class="stat-item reveal"><div class="stat-number">340</div><div class="stat-label">Propiedades Vendidas</div></div>
+  <div class="stat-item reveal"><div class="stat-number">98<span class="stat-suffix">%</span></div><div class="stat-label">Clientes Satisfechos</div></div>
+  <div class="stat-item reveal"><div class="stat-number">800<span class="stat-suffix">+</span></div><div class="stat-label">Proyectos de Diseño</div></div>
+</div>
+
+<!-- SERVICES -->
+<section class="services-section" id="servicios">
+  <div class="section-header">
+    <div>
+      <div class="section-tag">Nuestros Servicios</div>
+      <h2 class="section-title reveal">Lo que<br><em>hacemos</em><br>por ti.</h2>
+    </div>
+    <p class="section-desc reveal">Un servicio integral que te acompaña desde encontrar la propiedad ideal hasta equiparla con muebles de diseño excepcional.</p>
+  </div>
+  <div class="services-grid stagger">
+    <div class="service-card reveal">
+      <div class="service-num">01</div>
+      <div class="svc-lines"><div class="svc-line"></div><div class="svc-line"></div></div>
+      <h3 class="service-name">Compra & Venta de Inmuebles</h3>
+      <p class="service-text">Intermediación profesional en la compra, venta y renta de propiedades residenciales y comerciales. Valoración exacta y negociación experta.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">02</div>
+      <div class="svc-lines"><div class="svc-line"></div><div class="svc-line"></div></div>
+      <h3 class="service-name">Diseño de Interiores</h3>
+      <p class="service-text">Transformamos cualquier espacio en un ambiente armonioso y funcional. Desde la concepción hasta la ejecución, cuidamos cada detalle.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">03</div>
+      <div class="svc-lines"><div class="svc-line"></div><div class="svc-line"></div></div>
+      <h3 class="service-name">Mobiliario a Medida</h3>
+      <p class="service-text">Fabricamos y seleccionamos muebles exclusivos adaptados a tu estilo y necesidades. Calidad artesanal con materiales premium.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">04</div>
+      <div class="svc-lines"><div class="svc-line"></div><div class="svc-line"></div></div>
+      <h3 class="service-name">Inversión Inmobiliaria</h3>
+      <p class="service-text">Asesoría especializada para inversores que buscan maximizar el rendimiento de su capital en el mercado inmobiliario.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">05</div>
+      <div class="svc-lines"><div class="svc-line"></div><div class="svc-line"></div></div>
+      <h3 class="service-name">Gestión de Propiedades</h3>
+      <p class="service-text">Administración integral de inmuebles en renta: cobranza, mantenimiento, atención a inquilinos y reportes mensuales.</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-num">06</div>
+      <div class="svc-lines"><div class="svc-line"></div><div class="svc-line"></div></div>
+      <h3 class="service-name">Remodelación & Acabados</h3>
+      <p class="service-text">Renovación completa de espacios con materiales de primera calidad. Proyectos entregados en tiempo y dentro de presupuesto.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROPERTIES -->
+<section class="properties-section" id="propiedades">
+  <div class="section-header">
+    <div>
+      <div class="section-tag">Propiedades Destacadas</div>
+      <h2 class="section-title reveal">Espacios<br><em>únicos</em><br>te esperan.</h2>
+    </div>
+    <div>
+      <p class="section-desc reveal">Selección curada de propiedades residenciales y comerciales en las mejores zonas de Guadalajara y área metropolitana.</p>
+      <a href="#contacto" class="btn-primary" style="margin-top:28px;display:inline-block;">Ver Todas</a>
+    </div>
+  </div>
+  <div class="properties-grid">
+    <div class="prop-card featured reveal">
+      <div class="prop-bg-fill p1"></div>
+      <div class="prop-art">
+      </div>
+      <div class="prop-inner">
+        <div class="prop-type">Residencial · Destacada</div>
+        <div class="prop-name">Villa Panorámica Zapopan</div>
+        <div class="prop-price">$4,800,000 MXN</div>
+        <div class="prop-details">
+          <span class="prop-detail">4 Rec</span>
+          <span class="prop-detail">3 Baños</span>
+          <span class="prop-detail">320 m²</span>
+          <span class="prop-detail">Jardín</span>
+        </div>
+      </div>
+    </div>
+    <div class="prop-card reveal">
+      <div class="prop-bg-fill p2"></div>
+      <div class="prop-art">
+        <svg viewBox="0 0 200 220" width="140" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="40" width="160" height="180" stroke="white" stroke-width="1.5" fill="none"/>
+          <rect x="30" y="40" width="140" height="30" stroke="white" stroke-width="1" fill="none"/>
+          <line x1="100" y1="40" x2="100" y2="220" stroke="white" stroke-width="0.8" opacity="0.4"/>
+        </svg>
+      </div>
+      <div class="prop-inner">
+        <div class="prop-type">Comercial</div>
+        <div class="prop-name">Oficina Corporativa Centro</div>
+        <div class="prop-price">$2,200,000 MXN</div>
+        <div class="prop-details"><span class="prop-detail">180 m²</span><span class="prop-detail">Centro GDL</span></div>
+      </div>
+    </div>
+    <div class="prop-card reveal">
+      <div class="prop-bg-fill p3"></div>
+      <div class="prop-art">
+        <svg viewBox="0 0 200 220" width="140" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="100" cy="110" r="70" stroke="white" stroke-width="1.5" fill="none"/>
+          <circle cx="100" cy="110" r="35" stroke="white" stroke-width="1" fill="none"/>
+          <line x1="100" y1="40" x2="100" y2="180" stroke="white" stroke-width="0.8" opacity="0.3"/>
+          <line x1="30" y1="110" x2="170" y2="110" stroke="white" stroke-width="0.8" opacity="0.3"/>
+        </svg>
+      </div>
+      <div class="prop-inner">
+        <div class="prop-type">Departamento</div>
+        <div class="prop-name">Loft Moderno GDL</div>
+        <div class="prop-price">$1,650,000 MXN</div>
+        <div class="prop-details"><span class="prop-detail">2 Rec</span><span class="prop-detail">90 m²</span></div>
+      </div>
+    </div>
+    <div class="prop-card reveal">
+      <div class="prop-bg-fill p4"></div>
+      <div class="prop-art">
+        <svg viewBox="0 0 200 220" width="140" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M30 120L100 40L170 120V220H30V120Z" stroke="white" stroke-width="1.5" fill="none"/>
+          <rect x="75" y="155" width="50" height="65" stroke="white" stroke-width="1" fill="none"/>
+        </svg>
+      </div>
+      <div class="prop-inner">
+        <div class="prop-type">Residencial</div>
+        <div class="prop-name">Casa Club de Golf</div>
+        <div class="prop-price">$3,100,000 MXN</div>
+        <div class="prop-details"><span class="prop-detail">5 Rec</span><span class="prop-detail">240 m²</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FURNITURE -->
+
+<section class="furniture-section" id="muebles">
+  <div class="section-header">
+    <div>
+      <div class="section-tag">Colección de Muebles</div>
+      <h2 class="section-title reveal">Diseño que<br><em>define</em><br>tu espacio.</h2>
+    </div>
+    <p class="section-desc reveal">Nuestra colección exclusiva combina estética contemporánea con funcionalidad. Cada pieza, una declaración de estilo atemporal.</p>
+  </div>
+  <div class="furniture-grid stagger">
+    <div class="furn-card reveal">
+      <div class="furn-visual">
+      <img src="Imagenes/sofa.jpg">
+      </div>
+      <div class="furn-add">+</div>
+      <div class="furn-info">
+        <div class="furn-cat">Sala</div>
+        <div class="furn-name">Sofá Nórdico Oslo</div>
+        <div class="furn-price">$18,500 MXN</div>
+      </div>
+    </div>
+    <div class="furn-card reveal">
+      <div class="furn-visual">
+      <img src="Imagenes/Cama.jpg">
+      </div>
+      <div class="furn-add">+</div>
+      <div class="furn-info">
+        <div class="furn-cat">Recámara</div>
+        <div class="furn-name">Cama Tokio Queen</div>
+        <div class="furn-price">$24,900 MXN</div>
+      </div>
+    </div>
+    <div class="furn-card reveal">
+      <div class="furn-visual">
+      <img src="Imagenes/librero.jpg">
+      </div>
+      <div class="furn-add">+</div>
+      <div class="furn-info">
+        <div class="furn-cat">Estudio</div>
+        <div class="furn-name">Librero Venecia</div>
+        <div class="furn-price">$12,200 MXN</div>
+      </div>
+    </div>
+    <div class="furn-card reveal">
+      <div class="furn-visual">
+      <img src="Imagenes/mesita.jpg">
+      </div>
+      <div class="furn-add">+</div>
+      <div class="furn-info">
+        <div class="furn-cat">Comedor</div>
+        <div class="furn-name">Mesa Berlín 6P</div>
+        <div class="furn-price">$21,800 MXN</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process-section" id="proceso">
+  <div class="section-header">
+    <div>
+      <div class="section-tag">Nuestro Proceso</div>
+      <h2 class="section-title reveal">Simple.<br><em>Eficiente.</em><br>Contigo.</h2>
+    </div>
+    <p class="section-desc reveal">Un proceso claro y transparente que te guía en cada etapa. Tu tranquilidad es nuestra prioridad desde el primer día.</p>
+  </div>
+  <div class="process-steps stagger">
+    <div class="process-step reveal">
+      <div class="step-dot">01</div>
+      <h3 class="step-title">Consulta Inicial</h3>
+      <p class="step-text">Nos reunimos para entender tus necesidades, presupuesto y visión. Una conversación que lo cambia todo.</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-dot">02</div>
+      <h3 class="step-title">Búsqueda & Selección</h3>
+      <p class="step-text">Identificamos las mejores opciones del mercado y te presentamos una selección curada de propiedades y mobiliario.</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-dot">03</div>
+      <h3 class="step-title">Diseño & Propuesta</h3>
+      <p class="step-text">Desarrollamos un plan de diseño integral que transforma el espacio en tu hogar ideal, con todos los detalles.</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="step-dot">04</div>
+      <h3 class="step-title">Entrega & Satisfacción</h3>
+      <p class="step-text">Ejecutamos el proyecto con precisión y te entregamos un espacio que supera tus expectativas.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section" id="nosotros">
+  <div class="section-header">
+    <div>
+      <div class="section-tag">Testimonios</div>
+      <h2 class="section-title reveal">Ellos ya<br><em>viven</em><br>en PROPIX.</h2>
+    </div>
+    <p class="section-desc reveal">La confianza de nuestros clientes es el motor que impulsa cada proyecto. Sus historias, nuestra mayor recompensa.</p>
+  </div>
+  <div class="testimonials-grid stagger">
+    <div class="t-card reveal">
+      <div class="t-quote">"</div>
+      <p class="t-text">PROPIX transformó nuestra casa en un espacio que realmente refleja quiénes somos. El proceso fue impecable de principio a fin.</p>
+      <div class="t-author">
+        <div class="t-avatar">MC</div>
+        <div><div class="t-name">María Castillo</div><div class="t-role">Propietaria, Zapopan</div></div>
+      </div>
+    </div>
+    <div class="t-card reveal">
+      <div class="t-quote">"</div>
+      <p class="t-text">La combinación de asesoría inmobiliaria y diseño de interiores en un solo lugar es exactamente lo que necesitábamos. Profesionales al 100%.</p>
+      <div class="t-author">
+        <div class="t-avatar">RH</div>
+        <div><div class="t-name">Roberto Hernández</div><div class="t-role">Inversionista</div></div>
+      </div>
+    </div>
+    <div class="t-card reveal">
+      <div class="t-quote">"</div>
+      <p class="t-text">Compramos nuestro departamento y lo amueblamos completamente con PROPIX. El resultado superó todo lo que imaginábamos.</p>
+      <div class="t-author">
+        <div class="t-avatar">LV</div>
+        <div><div class="t-name">Laura Vega</div><div class="t-role">Cliente, Guadalajara</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contacto">
+  <div class="cta-bg-text">PROPIX</div>
+  <div class="cta-tag">Comenzar</div>
+  <h2 class="cta-title reveal">Tu espacio <em>ideal</em><br>comienza aquí.</h2>
+  <p class="cta-text reveal">Contáctanos hoy y descubre cómo PROPIX puede ayudarte a encontrar, diseñar y equipar el espacio de tus sueños en Guadalajara.</p>
+  <div class="cta-actions reveal">
+    <a href="tel:+523312345678" class="btn-dark">Llamar Ahora</a>
+    <a href="mailto:hola@propix.mx" class="btn-outline-dark">Enviar Mensaje</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <span class="footer-logo">PRO<span>PIX</span></span>
+      <p class="footer-desc">Inmobiliaria y muebles de alta calidad. Creando espacios funcionales y hermosos desde 2012 en Guadalajara, Jalisco.</p>
+      <div class="footer-social">
+        <a href="#" class="social-link">IG</a>
+        <a href="#" class="social-link">FB</a>
+        <a href="#" class="social-link">LI</a>
+        <a href="#" class="social-link">YT</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Inmobiliaria</h4>
+      <ul>
+        <li><a href="#">Propiedades en Venta</a></li>
+        <li><a href="#">Propiedades en Renta</a></li>
+        <li><a href="#">Proyectos Nuevos</a></li>
+        <li><a href="#">Inversión</a></li>
+        <li><a href="#">Gestión de Inmuebles</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Muebles & Diseño</h4>
+      <ul>
+        <li><a href="#">Sala & Comedor</a></li>
+        <li><a href="#">Recámara</a></li>
+        <li><a href="#">Oficina</a></li>
+        <li><a href="#">Diseño de Interiores</a></li>
+        <li><a href="#">Proyectos a Medida</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contacto</h4>
+      <ul>
+        <li><a href="#">Av. Chapultepec 100, GDL</a></li>
+        <li><a href="tel:+523312345678">+52 33 1234 5678</a></li>
+        <li><a href="mailto:hola@propix.mx">hola@propix.mx</a></li>
+        <li><a href="#">Lun–Sáb · 9am a 7pm</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2024 PROPIX. Todos los derechos reservados.</p>
+    <div class="footer-legal">
+      <a href="#">Privacidad</a>
+      <a href="#">Términos</a>
+      <a href="#">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let cx = window.innerWidth/2, cy = window.innerHeight/2;
+  let rx = cx, ry = cy;
+
+  document.addEventListener('mousemove', e => {
+    cx = e.clientX; cy = e.clientY;
+    cursor.style.left = cx + 'px';
+    cursor.style.top = cy + 'px';
+  });
+
+  (function animateRing() {
+    rx += (cx - rx) * 0.13;
+    ry += (cy - ry) * 0.13;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  })();
+
+  const interactables = document.querySelectorAll('a, button, .service-card, .furn-card, .prop-card, .process-step');
+  interactables.forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      ring.style.width = '56px'; ring.style.height = '56px';
+    });
+    el.addEventListener('mouseleave', () => {
+      ring.style.width = '36px'; ring.style.height = '36px';
+    });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const siblings = entry.target.parentElement.querySelectorAll('.reveal');
+        let idx = Array.from(siblings).indexOf(entry.target);
+        setTimeout(() => entry.target.classList.add('visible'), idx * 90);
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => obs.observe(el));
+
+  // Nav shadow on scroll
+  window.addEventListener('scroll', () => {
+    document.getElementById('mainNav').style.boxShadow =
+      window.scrollY > 40 ? '0 2px 28px rgba(0,0,0,0.07)' : 'none';
+  });
+</script>
+</body>
+</html>
